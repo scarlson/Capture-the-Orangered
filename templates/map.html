@@ -1,0 +1,121 @@
+<div id="map">
+    <table>
+    </table>
+</div>
+<div id="toolbox">
+    <div id="sky" class="tool">
+        <i class="fa fa-stop fa-lg"></i>
+    </div>
+    <div id="dirt" class="tool">
+        <i class="fa fa-stop fa-lg"></i>
+    </div>
+    <div id="upvote" class="tool">
+        <i class="oj fa icon-arrow-up-a fa-lg"></i>
+    </div>
+    <div id="mover" class="tool">
+        <i class="fa fa-arrows-h fa-lg"></i>
+    </div>
+    <div id="flag" class="tool">
+        <i class='oj fa fa-envelope-o fa-lg'></i>
+    </div>
+    <div id="goal" class="tool">
+        <i class='fa fa-inbox fa-lg'></i>
+    </div>
+    <div id="orangered" class="tool">
+        <i class="oj fa fa-spinner fa-lg fa-spin"></i>
+    </div>
+    <div id="periwinkle" class="tool">
+        <i class="pw fa fa-spinner fa-lg fa-spin"></i>
+    </div>
+    <div id="save" class="tool">
+        <i class="fa fa-save fa-lg"></i>
+    </div>
+</div>
+  <!-- Save Modal -->
+  <div class="modal" id="msave" tabindex="-1" role="dialog" aria-labelledby="tabLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Save</h4>
+        </div>
+        <form action="/tools/map" method="post" class="form-horizontal">
+        <div class="modal-body">
+            <input id="hmap" name="m" type="hidden" value="{{MapId}}"></input>
+            <input id="mapname" name="name" type="text" placeholder="Map Name"></input>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="cta start">
+                <h3>Save</h3>
+            </button>
+        </div>
+        </form>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<script type="text/javascript">
+    for (var i=0;i<{{maxheight}};i++) {
+        var r = "<tr id='h" + i + "'>";
+        for (var j=0;j<{{maxwidth}};j++) {
+            r += "<td id='w" + j + "' class='tile sky'></td>";
+        }
+        r += "</tr>";
+        $("#map table").prepend(r);
+    }
+    var t = {};
+    t['sky'] = ""
+    t['periwinkle'] = '<i class="pw fa fa-spinner fa-spin"></i>';
+    t['orangered'] = '<i class="oj fa fa-spinner fa-spin"></i>';
+    t['dirt'] = '<i class="fa fa-stop"></i>';
+    t['mover'] = '<i class="fa fa-stop"></i>';
+    t['upvote'] = '<span class="fa-stack fa-2x"><i class="fa fa-square-o fa-stack-2x"></i><i class="oj fa icon-arrow-up-a fa-stack-2x"></i></span>';
+    t['goal'] = "<i class='fa fa-inbox'></i>";
+    t['flag'] = "<i class='oj fa fa-envelope-o'></i>";
+    $("#save").click(function () {SaveMap();})
+    $(".tool").click(function () {
+        $(".tool").removeClass("active");
+        $(this).addClass("active");
+    });
+    $(".tile").click(function () {
+        type = $(".tool.active").attr("id");
+        $(this).html(t[type]);
+        $(this).attr("class", "tile " + type);
+    });
+    function SaveMap() {
+        var rows = {};
+        for (i=0;i<{{maxheight}};i++) {
+            var row = {};
+            for (j=0;j<{{maxwidth}};j++) {
+                tl = $("tr#h"+i+" td#w"+j).attr("class");
+                if (tl === "tile dirt") {
+                    row[j] = "d";
+                }
+                if (tl === "tile sky") {
+                    row[j] = "s";
+                }
+                if (tl === "tile upvote") {
+                    row[j] = "u";
+                }
+                if (tl === "tile flag") {
+                    row[j] = "f";
+                }
+                if (tl === "tile goal") {
+                    row[j] = "g";
+                }
+                if (tl === "tile mover") {
+                    row[j] = "m";
+                }
+                if (tl === "tile periwinkle") {
+                    row[j] = "p";
+                }
+                if (tl === "tile orangered") {
+                    row[j] = "o";
+                }
+            }
+            rows[i] = row;
+        }
+        console.log(rows);
+        $("#hmap").val(JSON.stringify({m:rows}));
+        //$.post( "/tools/map", { m: x, name: name});
+        $("#msave").modal();
+    }
+</script>

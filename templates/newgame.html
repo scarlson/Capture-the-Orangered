@@ -1,0 +1,35 @@
+
+<div class="row">
+{{#maps}}
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="card">
+            <form action="/newcto" method="post" class="form-horizontal">
+                <input name="mapid" type="hidden" value="{{MapId}}"></input>
+                <h3>{{ Name }}</h3>
+                <h3>{{ Owner }}</h3>
+                <button type="submit" class="cta start">
+                   <h3>Start</h3>
+                </button>
+            </form>
+        </div>
+    </div>
+{{/maps}}
+</div>
+
+<div class="row">
+{{#usermaps}}
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="card">
+            <form action="/newcto" method="post" class="form-horizontal">
+                <input name="mapid" type="hidden" value="{{MapId}}"></input>
+                <h3>{{ Name }}</h3>
+                <h3>{{ Owner }}</h3>
+                <button type="submit" class="cta start">
+                   <h3>Start</h3>
+                </button>
+            </form>
+        </div>
+    </div>
+{{/usermaps}}
+</div>
+</script>

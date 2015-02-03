@@ -1,0 +1,44 @@
+
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="tutorial"><a href="/newcto"><h3>New Game!</h3></a></div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-0 col-md-offset-4">
+        <div class="tutorial"><a href="/cto/tutorial/"><h3>Learn to play!</h3></a></div>
+    </div>
+</div>
+
+<div class="row">
+{{#games}}
+    <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="game card">
+            <div class="score">
+               <p class="sc"><span>Orangered</span><span class="scr">{{OrangeredScore}}</span></p>
+               <p class="sc"><span>Periwinkle</span><span class="scr">{{PeriwinkleScore}}</span></p>
+               <p class="pc"><span>{{ PlayerCount }} players</span><span class="scr">{{ElapsedTime}}</span></p>
+            </div>
+            {{^Ended}}
+                {{^Full}}
+                    <a href="/cto/{{ Id }}">
+                        <div class="cta">
+                            <h3>Join</h3>
+                        </div>
+                    </a>
+                {{/Full}}
+                {{#Full}}
+                    <div class="cta full">
+                        <h3>Full</h3>
+                    </div>
+                {{/Full}}
+            {{/Ended}}
+            {{#Ended}}
+                <a href="/newcto">
+                    <div class="cta start">
+                        <h3>Start</h3>
+                    </div>
+                </a>
+            {{/Ended}}
+        </div>
+    </div>
+{{/games}}
+</div>

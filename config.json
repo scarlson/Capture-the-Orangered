@@ -1,0 +1,7 @@
+{
+"UserAgent":"reddit user agent so admins dont ban the app",
+"RedditSecret":"redditsecrets",
+"RedditId":"redditappid",
+"RedirectURL":"http://example.com/auth",
+"CookieSecret":"secrets"
+}

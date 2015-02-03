@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CTO {{Gameid}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/ionicons.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/custom.css" rel="stylesheet" media="screen">
+    <link href="/css/game.css" rel="stylesheet" media="screen">
+    <link href='//fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Raleway:500,300,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/images/favicon.png" />
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/gamepad.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        {{#level}}
+        <h4 id="Flagger">{{ GetName }}</h4>
+        {{/level}}
+      </div>
+    </nav>
+{{#level}}
+    <div id="info">{{ GetDescription }}</div>
+{{/level}}
+    <div id="warn"></div>
+    <div id="subwarn"></div>
+    <div id="attacks"><i class="fa fa-gavel fa-lg"></i></div>
+
+{{#level}}
+    <div id="lvl" style="width:{{Width}}px;height:{{Height}}px;">
+{{/level}}
+{{#tiles}}
+    <div id="{{ Id }}" class="tile {{ Type }}" style="left:{{X}}px;bottom:{{Y}}px;"></div>
+{{/tiles}}
+{{#sprites}}
+    {{#User}}
+        <div id="{{ Name }}" class="Player" style="left:{{X}}px;bottom:{{Y}}px;"><h3 class="name">{{ Name }}</h3><img src="/images/OrangeredTophat.png"></img></div>
+    {{/User}}
+{{/sprites}}
+</div>
+  <!-- Tab Modal -->
+  <div class="modal" id="tab" tabindex="-1" role="dialog" aria-labelledby="tabLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Players</h4>
+        </div>
+        <div class="modal-body">
+            <div id="tabOrangered"></div>
+            <div id="tabPeriwinkle"></div>
+        </div>
+        <div class="modal-footer">
+            <div id="tabDisconnect"></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!-- GG Modal -->
+  <div class="modal" id="gg" tabindex="-1" role="dialog" aria-labelledby="ggLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Success!</h4>
+        </div>
+        <div class="modal-body">
+            {{#level}}
+                    <p>You've completed {{ GetName }}.</p>
+            {{/level}}
+        </div>
+        <div class="modal-footer">
+          <a type="button" href="/cto/tutorial/" class="btn btn-default pull-left">Back</a>
+          <a type="button" href="{{ next }}" class="btn btn-primary">Next</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<script type="text/javascript">
+    $(".Periwinkle").html('<i class="pw fa fa-spinner fa-4x fa-spin"></i>');
+    $(".Orangered").html('<i class="oj fa fa-spinner fa-4x fa-spin"></i>');
+    $(".Dirt").html('<i class="fa fa-stop fa-stack-2x"></i>');
+    $(".Mover").html('<i class="fa fa-stop fa-stack-2x"></i>');
+    $(".Upvote").html('<span class="fa-stack fa-2x"><i class="fa fa-square-o fa-stack-2x"></i><i class="oj fa icon-arrow-up-a fa-stack-2x"></i></span>');
+    graphics = "high";
+    $("#low").click(function() {graphics = "low";});
+    $("#med").click(function() {graphics = "med";});
+    $("#high").click(function() {graphics = "high";});
+    {{#Flag}}
+        $("#lvl").append("<div class='flag'><i class='oj fa fa-envelope-o fa-5x'></i></div>");
+    {{/Flag}}
+    $(".Goal").html("<i class='fa fa-inbox fa-5x'></i>");
+    me = "{{ me }}";
+    $("#" + me).css("position", "fixed");
+    $("#" + me).addClass("me");
+    {{#sprites}}
+        $("#tab{{Team}}").append(
+            "<p>" +
+        {{#Dead}}
+            '<span class="dead fa-stack fa-2x"><i class="fa fa-user fa-stack-2x"></i><i class="fa fa-bolt fa-stack-2x"></i></span>'+
+        {{/Dead}}
+        {{^Dead}}
+            '<i class="alive fa fa-user fa-2x"></i>'+
+        {{/Dead}}
+            '{{ Name }}</p>');
+    {{/sprites}}
+</script>
+    <script src="/js/tutorial.js"></script>
+  </body>
+</html>

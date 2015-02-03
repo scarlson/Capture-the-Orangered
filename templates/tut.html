@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Capture the Orangered!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/custom.css" rel="stylesheet" media="screen">
+    <link href="/css/game.css" rel="stylesheet" media="screen">
+    <link rel="shortcut icon" href="/images/favicon.png" />
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/tutorial.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        {{#level}}
+        <h4 id="Flagger">{{ GetName }}</h4>
+        {{/level}}
+      </div>
+    </nav>
+{{#level}}
+    <div id="ticker">{{ GetDescription }}</div>
+{{/level}}
+{{#level}}
+    <div id="lvl" style="width:{{Width}}px;height:{{Height}}px;">
+{{/level}}
+{{#tiles}}
+    <div id="{{ Id }}" class="tile {{ Type }}" style="left:{{X}}px;bottom:{{Y}}px;"></div>
+{{/tiles}}
+{{#sprites}}
+    {{^Dead}}
+        <div id="{{ Name }}" class="Player" style="left:{{X}}px;bottom:{{Y}}px;"><h3 class="name">{{ Name }}</h3><img src="/images/{{ Team }}Snoo.png"></img></div>
+    {{/Dead}}
+{{/sprites}}
+
+  <!-- Modal -->
+  <div class="modal fade" id="gg" tabindex="-1" role="dialog" aria-labelledby="ggLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Success!</h4>
+        </div>
+        <div class="modal-body">
+            {{#level}}
+                    <p>You've completed {{ GetName }}.</p>
+            {{/level}}
+        </div>
+        <div class="modal-footer">
+          <a type="button" href="/cto/tutorial/" class="btn btn-default pull-left">Back</a>
+          <a type="button" href="{{ next }}" class="btn btn-primary">Next</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+</div>
+<script type="text/javascript">
+    {{#Flag}}
+    $("#lvl").append("<img id='flag' style='left:{{X}};bottom:{{Y}};' src='/images/orangered.png'></img>");
+    {{/Flag}}
+    $(".Goal").html("<img id='goal' src='/images/pillar.png'></img>");
+    me = "{{ me }}";
+    next = "{{ next }}";
+    $("#" + me).css("position", "fixed");
+    $("#" + me).addClass("me");
+    lastflag = "";
+</script>
+  </body>
+</html>

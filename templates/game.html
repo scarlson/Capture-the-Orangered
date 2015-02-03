@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CTO {{Gameid}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/ionicons.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/custom.css" rel="stylesheet" media="screen">
+    <link href="/css/game.css" rel="stylesheet" media="screen">
+    <link href='//fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Raleway:500,300,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="/images/favicon.png" />
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/gamepad.js"></script>
+    <script src="/js/game.js"></script>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default" role="navigation">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <h4 id="Periwinkle">{{ Periwinkle }}</h4>
+        <h4 id="Orangered">{{ Orangered }}</h4>
+        {{^Flag}}
+            <h4 id="Flagger"></h4>
+        {{/Flag}}
+        {{#Flag}}
+            <h4 id="Flagger">{{ Owner }}</h4>
+        {{/Flag}}
+      </div>
+    </nav>
+    <div id="info"></div>
+    <div id="warn"></div>
+    <div id="subwarn"></div>
+    <div id="attacks"><i class="fa fa-gavel fa-lg"></i></div>
+
+{{#level}}
+    <div id="lvl" style="width:{{Width}}px;height:{{Height}}px;">
+{{/level}}
+{{#tiles}}
+    <div id="{{ Id }}" class="tile {{ Type }}" style="left:{{X}}px;bottom:{{Y}}px;"></div>
+{{/tiles}}
+{{#sprites}}
+    {{^Dead}}
+        <div id="{{ Name }}" class="Player" style="left:{{X}}px;bottom:{{Y}}px;"><h3 class="name">{{ Name }}</h3><img src="/images/{{ Team }}{{Sprite}}.png"></img></div>
+    {{/Dead}}
+{{/sprites}}
+</div>
+<div id="audio"><i class="fa fa-volume-up fa-lg"></i></a></div>
+  <!-- Tab Modal -->
+  <div class="modal" id="tab" tabindex="-1" role="dialog" aria-labelledby="tabLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Players</h4>
+        </div>
+        <div class="modal-body">
+            <div id="tabOrangered">
+            <h4>Orangered</h4></div>
+            <div id="tabPeriwinkle">
+            <h4>Periwinkle</h4></div>
+        </div>
+        <div class="modal-footer">
+            <div id="tabDisconnect"></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <!-- GG Modal -->
+  <div class="modal" id="gg" tabindex="-1" role="dialog" aria-labelledby="ggLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+        </div>
+        <div class="modal-body">
+            <div id="scoreOrangered"></div>
+            <div id="scorePeriwinkle"></div>
+        </div>
+        <div class="modal-footer">
+          <a type="button" href="/cto/" class="btn btn-primary">End</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+<script type="text/javascript">
+    $(".Periwinkle").html('<i class="pw fa fa-spinner fa-4x fa-spin"></i>');
+    $(".Orangered").html('<i class="oj fa fa-spinner fa-4x fa-spin"></i>');
+    $(".Dirt").html('<i class="fa fa-stop fa-stack-2x"></i>');
+    $(".Mover").html('<i class="fa fa-stop fa-stack-2x"></i>');
+    $(".Upvote").html('<span class="fa-stack fa-2x"><i class="fa fa-square-o fa-stack-2x"></i><i class="oj fa icon-arrow-up-a fa-stack-2x"></i></span>');
+    $(".Goal").html("<i class='fa fa-inbox fa-5x'></i>");
+    $("#low").click(function() {graphics = "low";}); // if graphics low, go to medium
+    $("#med").click(function() {graphics = "med";}); // if graphics medium, go to high
+    $("#high").click(function() {graphics = "high";}); // if graphics high, go to low
+    {{#Flag}}
+        $("#lvl").append("<div class='flag'><i class='oj fa fa-envelope-o fa-5x'></i></div>");
+    {{/Flag}}
+    me = "{{ me }}";
+    $("#" + me).css("position", "fixed");
+    $("#" + me).addClass("me");
+    lastorangered = {{ Orangered }};
+    lastperiwinkle = {{ Periwinkle }};
+    gameid = {{ Gameid }};
+    capmax = {{ CapMax }};
+    {{#sprites}}
+        $("#tab{{Team}}").append("<p id='{{Name}}'>{{ Name }}</p>");
+    {{/sprites}}
+    {{^settings}}
+        audio = 100;
+        music = 100;
+        graphics = "high";
+        forwards = 68;
+        forwards2 = 0;
+        backwards = 65;
+        backwards2 = 0;
+        jump = 87;
+        jump2 = 32;
+        attack = 16;
+        attack2 = 0;
+        down = 115;
+        down2 = 0;
+        stat = 9;
+    {{/settings}}
+    {{#settings}}
+        audio = {{Audio}};
+        music = {{Music}};
+        graphics = "{{Graphics}}";
+        forwards = {{Forwards}};
+        forwards2 = {{Forwards2}};
+        backwards = {{Backwards}};
+        backwards2 = {{Backwards2}};
+        jump = {{Jump}};
+        jump2 = {{Jump2}};
+        attack = {{Attack}};
+        attack2 = {{Attack2}};
+        down = {{Down}};
+        down2 = {{Down2}};
+        stat = {{Stat}};
+    {{/settings}}
+</script>
+  </body>
+</html>

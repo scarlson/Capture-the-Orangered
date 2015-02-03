@@ -1,0 +1,48 @@
+                <h2>Pikayou</h2>
+
+<div class="row"> 
+    {{#sprites}}
+    <div class="col-xs-4 col-sm-3 col-md-2">
+        <div class="card" id="{{.}}">
+            <img class="as" src="/images/Orangered{{.}}.png"/>
+            <img class="as left pull-right" src="/images/Periwinkle{{.}}.png"/>
+        </div>
+    </div>
+    {{/sprites}}
+    {{#user}}
+        {{#Sprites}}
+    <div class="col-xs-4 col-sm-3 col-md-2">
+        <div class="card" id="{{.}}">
+            <img class="as" src="/images/Orangered{{.}}.png"/>
+            <img class="as left pull-right" src="/images/Periwinkle{{.}}.png"/>
+        </div>
+    </div>
+        {{/Sprites}}
+    {{/user}}
+</div>
+
+<script type="text/javascript">
+    {{#user}}
+        $("#{{Sprite}}").addClass("active");
+    {{/user}}
+    {{#sprites}}
+        $("#{{.}}").click(function () {
+            if (!$("#{{.}}").hasClass("active")) {
+                $.post( "/account", { sprite: "{{.}}" });
+                $(".active").removeClass("active");
+                $("#{{.}}").addClass("active");
+            }
+        });
+    {{/sprites}}
+    {{#user}}
+        {{#Sprites}}
+        $("#{{.}}").click(function () {
+            if (!$("#{{.}}").hasClass("active")) {
+                $.post( "/account", { sprite: "{{.}}" });
+                $(".active").removeClass("active");
+                $("#{{.}}").addClass("active");
+            }
+        });
+        {{/Sprites}}
+    {{/user}}
+</script>
